@@ -1,0 +1,112 @@
+#%RAML 1.0
+title: Inventory API
+description: API for inventory management
+mediaType:
+  - application/json
+version: 1.0.0
+
+traits:
+    responses:
+      401:
+        description: Unauthorized or invalid client application credentials
+      500:
+        description: Internal Server Error
+protocols:
+  - HTTP
+types:
+   inventoryItem:
+     properties:
+      productCode:
+          description: "Product Code"
+          type: "string"
+          example: "1"
+      size:
+          description: "Size"
+          type: "string"
+          enum: [XS,S,M,L,XL,XXL,NA]
+          example: "XS"
+      count:
+          description: "Item count"
+          type: "integer"
+          example: 3000
+      description:
+          description: "Product Description"
+          type: "string"
+          example: "Mulesoft Tshirt"
+   inventoryItemUpdate:
+     properties:
+      size:
+          description: "Size"
+          type: "string"
+          enum: [XS,S,M,L,XL,XXL,NA]
+          example: "XS"
+      count:
+          description: "Item count"
+          type: "integer"
+          example: 3000
+      description:
+          description: "Product Description"
+          type: "string"
+          example: "Mulesoft Tshirt"
+/inventory:
+  get:
+    displayName: List inventory item
+    description: List inventory item
+    body: {}  
+    responses:
+      "200":
+        description: Retrieve items
+        body:
+          type: object
+          properties:
+            items: inventoryItem[]
+  post:
+    displayName: Register new inventory item
+    description: Register new inventory item
+    body:
+      type: inventoryItem
+    responses:
+      "201":
+        description: Inventory item created
+      "401":
+        description: Unauthorized
+      "409":
+        description: Failed to create inventory item (inventory item already exists)
+      "500":
+        description: Internal server error
+  /{productCode}:
+    get:
+      displayName: List single inventory item
+      description: List single inventory item
+      responses:
+        "200":
+          description: Retrieve Inventory item
+          body:
+            type: inventoryItem
+        "404":
+          description: Inventory item not found
+        "500":
+          description: Internal server error
+    put:
+      displayName: Update existing inventory item
+      description: Update existing inventory item
+      body:
+        type: inventoryItemUpdate
+      responses:
+        "200":
+          description: Inventory item updated successfully
+        "404":
+          description: Inventory item not found
+        "500":
+          description: Internal server error
+    delete:
+      displayName: Delete existing inventory item
+      description: Delete existing inventory item
+      body: {}
+      responses:
+        "200":
+          description: Inventory item deleted successfully
+        "404":
+          description: Inventory item not found
+        "500":
+          description: Internal server error
