@@ -14,3 +14,9 @@ mysql:
   password: "<DB_PASSWORD>"
   database: "<DB_NAME>"
 ```
+
+## API Spec (RAML)
+If you want to inspect the API Spec of this API, please take a look to the file `src/main/resources/api/inventory-api.raml`
+
+## Inspect the API console
+Once running, you can access the API Console of this API going to this link: `http://localhost:8081/console`
